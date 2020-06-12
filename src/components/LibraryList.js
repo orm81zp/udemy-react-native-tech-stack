@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { Card, CardSection } from './common';
+import ListItem from './ListItem';
 
 class LibraryList extends Component {
-  renderList() {
-    const { libraries } = this.props;
-
-    return (
-      <Card>
-        {libraries.map((library) => {
-          return (
-            <CardSection key={library.id}>
-              <Text>{library.title}</Text>
-            </CardSection>
-          )
-        })}
-      </Card>
-    );
+  renderItem({ item }) {
+    return <ListItem library={item} />;
   }
 
   render() {
-    return (
-      <View>
-        {this.renderList()}
-      </View>
-    );
+    const { libraries } = this.props;
+
+    return <FlatList
+      data={libraries}
+      renderItem={this.renderItem}
+      keyExtractor={(library) => library.id }
+    />;
   }
 }
 
